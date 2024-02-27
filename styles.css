@@ -1,4 +1,4 @@
-main{
+ main{
     background-color: rgba(255, 166, 0, 0.626);
 }
 .wrapper{
@@ -61,6 +61,10 @@ main{
     grid-area: space_;
     background-color:antiquewhite;
     height: 700px;
+    position: relative;
+}
+#mainspace{
+    margin: 10px 0 0 10px;
 }
 @media(min-width:700px){
     .main {
@@ -102,3 +106,9 @@ button:hover{
     background-color: rgba(203, 77, 31, 0.822);
 }
 
+.test{
+    border: 2px  solid red;
+}
+a{
+    cursor:pointer;
+}
