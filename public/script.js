@@ -4,12 +4,11 @@ $(document).ready(function(){
         var setUrl = getUrl;
         $.ajax({
             url: setUrl, // URL of the server script to fetch updated content
-            type: 'GET', // Or 'POST' if needed
+            type: 'GET',
+            dataType: 'html', // Or 'POST' if needed
             success: function(data) {
-                var htmlContent = generateContent();
-                var btnContent = btnPrContent();
-                $('#content').html(htmlContent); 
-                $('#btn_main').html(btnContent);
+                $('#content').html(data); 
+                // $('#btn_main').html(btnContent);
                 console.log(data);// Replace the content of the '#content' div with the fetched data
             },
             error: function(xhr, status, error) {
@@ -21,15 +20,15 @@ $(document).ready(function(){
 
     // Call reloadContent() when the button is clicked
     $('#btn_dashboard').click(function(){
-        reloadContent("./dashboard.js");
+        reloadContent("./tmp_dashboard.html");
     });
     $('#btn_projects').click(function(){
-        reloadContent("./projects.js");
+        reloadContent("/tmp_projects.html");
     });
     $('#btn_tasks').click(function(){
-        reloadContent("./tasks.js");
+        reloadContent("/tmp_tasks.html");
     });
     $('#btn_users').click(function(){
-        reloadContent("./users.js");
+        reloadContent("/tmp_users.html");
     });
 });
