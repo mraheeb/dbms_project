@@ -10,6 +10,7 @@
     "sidebar header"
     "sidebar space_"
     ;
+    position: relative;
     
 }
 
@@ -60,7 +61,7 @@
 .space{
     grid-area: space_;
     background-color:antiquewhite;
-    height: 700px;
+    height: 100vh;
     position: relative;
 }
 #mainspace{
