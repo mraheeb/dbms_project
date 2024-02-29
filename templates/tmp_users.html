@@ -3,56 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
+    <title>User Data</title>
+    <style>
+        /* Add your CSS styles here */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>User Management</h1>
-    
-    <h2>Create User</h2>
-    <form id="createUserForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="role">Role:</label>
-        <select id="role" name="role" required>
-            <option value="admin">admin</option>
-            <option value="manager">manager</option>
-            <option value="team member">team member</option>
-        </select>
-        <br>
-        <button type="submit">Create User</button>
-    </form>
-
-    <script>
-        document.getElementById('createUserForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const userData = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch('/users', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(userData)
-                });
-
-                if (response.ok) {
-                    alert('User created successfully');
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to create user');
-                }
-            } catch (error) {
-                console.error('Error creating user:', error.message);
-                alert('Error: ' + error.message);
+    <h2>User Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+<script>
+    document.getElementById('btn_main').innerHTML='+ New User';
+    $(document).ready(function(){
+    // Function to reload content
+    function reloadContent(getUrl) {
+        var setUrl = getUrl;
+        $.ajax({
+            url: setUrl, // URL of the server script to fetch updated content
+            type: 'GET', // Or 'POST' if needed
+            dataType: 'html', 
+            success: function(data) {
+                $('#content').html(data); 
+                console.log(data);// Replace the content of the '#content' div with the fetched data
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', status, error);
+                console.log("xhr",xhr);
             }
         });
-    </script>
-</body>
+    }
+
+    // Call reloadContent() when the button is clicked
+    $('#btn_main').click(function(){
+        reloadContent("/tmp_createuser.html");
+    });
+});
+</script>
 </html>
+
+    

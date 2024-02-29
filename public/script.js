@@ -4,15 +4,14 @@ $(document).ready(function(){
         var setUrl = getUrl;
         $.ajax({
             url: setUrl, // URL of the server script to fetch updated content
-            type: 'GET',
-            dataType: 'html', // Or 'POST' if needed
+            type: 'GET', // Or 'POST' if needed
+            dataType: 'html', 
             success: function(data) {
                 $('#content').html(data); 
-                // $('#btn_main').html(btnContent);
-                console.log(data);// Replace the content of the '#content' div with the fetched data
+                // console.log(data);// Replace the content of the '#content' div with the fetched data
             },
             error: function(xhr, status, error) {
-                console.error('Error:', status, error);
+                console.error('Error check /script.js:', status, error);
                 console.log("xhr",xhr);
             }
         });
@@ -20,7 +19,7 @@ $(document).ready(function(){
 
     // Call reloadContent() when the button is clicked
     $('#btn_dashboard').click(function(){
-        reloadContent("./tmp_dashboard.html");
+        reloadContent("/tmp_dashboard.html");
     });
     $('#btn_projects').click(function(){
         reloadContent("/tmp_projects.html");

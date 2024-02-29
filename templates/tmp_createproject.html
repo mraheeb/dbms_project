@@ -1,0 +1,54 @@
+<h1>Project Management</h1>
+
+<h2>Create Project</h2>
+<form id="createProjectForm">
+    <label for="project_name">Project Name:</label>
+    <input type="text" id="project_name" name="project_name" required>
+    <br>
+    <label for="project_description">Description:</label>
+    <textarea id="project_description" name="project_description" rows="4" required></textarea>
+    <br>
+    <label for="start_date">Start Date:</label>
+    <input type="date" id="start_date" name="start_date" required>
+    <br>
+    <label for="end_date">End Date:</label>
+    <input type="date" id="end_date" name="end_date" required>
+    <br>
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+        <option value="on hold">Not started</option>
+        <option value="active">In progress</option>
+        <option value="completed">Completed</option>
+    </select>
+    <br>
+    <button type="submit">Create Project</button>
+</form>
+
+<script>
+    document.getElementById('createProjectForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const formData = new FormData(event.target);
+        const projectData = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/projects', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(projectData)
+            });
+
+            if (response.ok) {
+                alert('Project created successfully');
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to create project');
+            }
+        } catch (error) {
+            console.error('Error creating project tmp_createproject.html:', error.message);
+            alert('Error: ' + error.message);
+        }
+    });
+</script>

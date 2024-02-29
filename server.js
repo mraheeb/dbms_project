@@ -10,11 +10,13 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './public')));
 app.use(express.static(path.join(__dirname, './templates')));
 
+
 // Import route files
 const projectsRouter = require('./routes/projects');
 const tasksRouter = require('./routes/tasks');
 const usersRouter = require('./routes/users');
 // You can import other route files here
+
 
 // Use routes
 app.use('/projects', projectsRouter);

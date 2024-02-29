@@ -8,7 +8,7 @@ router.route('/')
         try {
             const connection = await getConnection();
             const [rows] = await connection.execute('SELECT * FROM tasks');
-            await connection.end();
+            // await connection.end();
             res.status(200).json(rows);
         } catch (error) {
             console.error('Error retrieving tasks:', error);
@@ -21,7 +21,7 @@ router.route('/')
             const { task_name, task_description, project_id, assigned_to, due_date, status } = req.body;
             const connection = await getConnection();
             await connection.execute('INSERT INTO tasks (task_name, task_description, project_id, assigned_to, due_date, status) VALUES (?, ?, ?, ?, ?, ?)', [task_name, task_description, project_id, assigned_to, due_date, status]);
-            await connection.end();
+            // await connection.end();
             res.status(201).json({ message: 'Task created successfully' });
         } catch (error) {
             console.error('Error creating task:', error);
@@ -37,7 +37,7 @@ router.route('/:taskId')
             const { status } = req.body;
             const connection = await getConnection();
             await connection.execute('UPDATE tasks SET status = ? WHERE task_id = ?', [status, taskId]);
-            await connection.end();
+            // await connection.end();
             res.status(200).json({ message: 'Task status updated successfully' });
         } catch (error) {
             console.error('Error updating task status:', error);

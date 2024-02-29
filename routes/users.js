@@ -8,7 +8,7 @@ router.route('/')
         try {
             const connection = await getConnection();
             const [rows] = await connection.execute('SELECT * FROM users');
-            await connection.end();
+            // await connection.end();
             res.status(200).json(rows);
         } catch (error) {
             console.error('Error retrieving users:', error);
@@ -21,7 +21,7 @@ router.route('/')
             const { username, email, role } = req.body;
             const connection = await getConnection();
             await connection.execute('INSERT INTO users (username, email, role) VALUES (?, ?, ?)', [username, email, role]);
-            await connection.end();
+            // await connection.end();
             res.status(201).json({ message: 'User created successfully' });
         } catch (error) {
             console.error('Error creating user:', error);
@@ -37,7 +37,7 @@ router.route('/:userId')
             const { role } = req.body;
             const connection = await getConnection();
             await connection.execute('UPDATE users SET role = ? WHERE user_id = ?', [role, userId]);
-            await connection.end();
+            // await connection.end();
             res.status(200).json({ message: 'User role updated successfully' });
         } catch (error) {
             console.error('Error updating user role:', error);
