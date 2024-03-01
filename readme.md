@@ -9,6 +9,7 @@ change config in {repo}/db/connection.js
 
 run $npm install
 
+run $node server.js
 browse to http://localhost:3000/
 
 ```
