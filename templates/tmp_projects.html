@@ -42,7 +42,7 @@
                 <th>Status</th>
             </tr>
         </thead>
-        <tbody id="projectTable tbody">
+        <tbody id="projectTable">
             <!-- Project data will be dynamically added here -->
         </tbody>
     </table>
@@ -75,7 +75,7 @@
         function fetchProjects() {
             fetch('/projects')
                 .then(response => {
-                    console.log("response rmp_projects.html:",response);
+                    console.log("response rmp_projects.html:", response);
                     if (!response.ok) {
                         throw new Error('Failed to fetch projects');
                     }
@@ -94,22 +94,68 @@
 
         // Function to display project data
         function displayProjects(projects) {
-            const tableBody = $('#projectTable tbody');
-            tableBody.empty(); // Clear previous data
+                const tableBody = $('#projectTable');
+                tableBody.empty(); // Clear previous data
 
-            projects.forEach(project => {
-                const row = `<tr>
-                            <td>${project.project_id}</td>
-                            <td>${project.project_name}</td>
-                            <td>${project.project_description}</td>
-                            <td>${project.start_date}</td>
-                            <td>${project.end_date}</td>
-                            <td>${project.status}</td>
-                        </tr>`;
-                tableBody.append(row);
-            });
+                projects.forEach(project => {
+                    // Create a dropdown menu for project status
+                    const selectElement = $('<select>').attr('id', `status_${project.project_id}`);
+
+                    // Add options to the select element
+                    ['on hold', 'completed', 'active'].forEach(option => {
+                        const optionElement = $('<option>').attr('value', option).text(option);
+                        if (option === project.status) {
+                            optionElement.attr('selected', true);
+                        }
+                        selectElement.append(optionElement);
+                    });
+
+                    // Attach the onchange event handler
+                    selectElement.on('change', function() {
+                        updateStatus(project.project_id);
+                    });
+
+                    // Construct the row with project details and the status dropdown
+                    const row = $('<tr>');
+                    row.append(`<td>${project.project_id}</td>`);
+                    row.append(`<td>${project.project_name}</td>`);
+                    row.append(`<td>${project.project_description}</td>`);
+                    row.append(`<td>${project.start_date}</td>`);
+                    row.append(`<td>${project.end_date}</td>`);
+                    row.append($('<td>').append(selectElement));
+
+                    // Append the row to the table body
+                    tableBody.append(row);
+                });
+            }
+
+            // Function to handle status update
+            async function updateStatus(projectId) {
+                const newStatus = $(`#status_${projectId}`).val();
+
+                try {
+                    const response = await fetch(`/projects/${projectId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ status: newStatus })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to update project status');
+                    }
+
+                    // Assuming you want to reload the projects data after status update
+                    fetchProjects();
+                } catch (error) {
+                    console.error('Error updating project status:', error.message);
+                    // Handle error
+                }
+            }
+        function test(){
+            console.log("test func");
         }
-
         // Call fetchProjects() when the document is ready
         fetchProjects();
     });
