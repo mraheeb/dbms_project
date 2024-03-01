@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,19 +11,24 @@
             width: 100%;
             border-collapse: collapse;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid black;
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
     </style>
 </head>
+
 <body>
     <h2>User Data</h2>
     <table>
@@ -34,37 +40,78 @@
                 <th>Role</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="userTable">
+            <!-- User data will be dynamically added here -->
         </tbody>
     </table>
 </body>
 <script>
-    document.getElementById('btn_main').innerHTML='+ New User';
-    $(document).ready(function(){
-    // Function to reload content
-    function reloadContent(getUrl) {
-        var setUrl = getUrl;
-        $.ajax({
-            url: setUrl, // URL of the server script to fetch updated content
-            type: 'GET', // Or 'POST' if needed
-            dataType: 'html', 
-            success: function(data) {
-                $('#content').html(data); 
-                console.log(data);// Replace the content of the '#content' div with the fetched data
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', status, error);
-                console.log("xhr",xhr);
-            }
+    document.getElementById('btn_main').innerHTML = '+New User';
+
+    $(document).ready(function () {
+
+        function reloadContent(getUrl) {
+            var setUrl = getUrl;
+            $.ajax({
+                url: setUrl, // URL of the server script to fetch updated content
+                type: 'GET', // Or 'POST' if needed
+                dataType: 'html',
+                success: function (data) {
+                    $('#content').html(data);
+                    // console.log(data); // Replace the content of the '#content' div with the fetched data
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', status, error);
+                    console.log("xhr", xhr);
+                }
+            });
+        }
+        // Call reloadContent() when the button is clicked
+        $('#btn_main').click(function () {
+            reloadContent("/tmp_createuser.html");
         });
-    }
+        // Function to fetch all user data
+        function fetchUsers() {
+            fetch('/users')
+                .then(response => {
+                    console.log("Response from server:", response);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch users');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("User data received:", data);
+                    displayUsers(data); // Call function to display users
+                })
+                .catch(error => {
+                    console.error('Error fetching users:', error.message);
+                    // Handle error
+                });
+        }
 
-    // Call reloadContent() when the button is clicked
-    $('#btn_main').click(function(){
-        reloadContent("/tmp_createuser.html");
+        // Function to display user data
+        function displayUsers(users) {
+            const tableBody = $('#userTable');
+            tableBody.empty(); // Clear previous data
+
+            users.forEach(user => {
+                // Construct the row with user details
+                const row = `<tr>
+                    <td>${user.user_id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                </tr>`;
+
+                // Append the row to the table body
+                tableBody.append(row);
+            });
+        }
+
+        // Call fetchUsers() when the document is ready
+        fetchUsers();
     });
-});
 </script>
-</html>
 
-    
+</html>
