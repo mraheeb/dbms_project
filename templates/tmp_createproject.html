@@ -1,28 +1,86 @@
-<h1>Project Management</h1>
+<style>
+    .card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    margin: 10px 0 0 10px;
+}
 
-<h2>Create Project</h2>
-<form id="createProjectForm">
-    <label for="project_name">Project Name:</label>
-    <input type="text" id="project_name" name="project_name" required>
-    <br>
-    <label for="project_description">Description:</label>
-    <textarea id="project_description" name="project_description" rows="4" required></textarea>
-    <br>
-    <label for="start_date">Start Date:</label>
-    <input type="date" id="start_date" name="start_date" required>
-    <br>
-    <label for="end_date">End Date:</label>
-    <input type="date" id="end_date" name="end_date" required>
-    <br>
-    <label for="status">Status:</label>
-    <select id="status" name="status" required>
-        <option value="on hold">Not started</option>
-        <option value="active">In progress</option>
-        <option value="completed">Completed</option>
-    </select>
-    <br>
-    <button type="submit">Create Project</button>
-</form>
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333; /* Adjust label color */
+}
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+button[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #555;
+}
+
+</style>
+
+
+<div class="card">
+    <h2>Create Project</h2>
+    <form id="createProjectForm">
+        <label for="project_name">Project Name:</label>
+        <input type="text" id="project_name" name="project_name" required>
+        <br>
+        <label for="project_description">Description:</label>
+        <textarea id="project_description" name="project_description" rows="4" required></textarea>
+        <br>
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required>
+        <br>
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required>
+        <br>
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="on hold">Not started</option>
+            <option value="active">In progress</option>
+            <option value="completed">Completed</option>
+        </select>
+        <br>
+        <button type="submit">Create Project</button>
+    </form>
+</div>
+
 
 <script>
     document.getElementById('createProjectForm').addEventListener('submit', async (event) => {

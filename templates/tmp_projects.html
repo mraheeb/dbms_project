@@ -1,29 +1,32 @@
+<style>
+    #body{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    /* Add your CSS styles here */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-    <style>
-        /* Add your CSS styles here */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
 
-        th,
-        td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
+    th {
+        background-color: #f2f2f2;
+    }
 
-        th {
-            background-color: #f2f2f2;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-    </style>
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
 </head>
 
-<body>
+<div id="body">
     <h2>Project Data</h2>
     <table>
         <thead>
@@ -40,9 +43,9 @@
             <!-- Project data will be dynamically added here -->
         </tbody>
     </table>
-</body>
+</div>
 <script>
-    document.getElementById('btn_main').innerHTML = '+ New Project';
+    document.getElementById('btn_main').innerHTML = '<i class="fa fa-plus"></i> New Project';
     $(document).ready(function () {
         // Function to reload content
         function reloadContent(getUrl) {
@@ -53,11 +56,9 @@
                 dataType: 'html',
                 success: function (data) {
                     $('#content').html(data);
-                    // console.log(data); // Replace the content of the '#content' div with the fetched data
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', status, error);
-                    console.log("xhr", xhr);
                 }
             });
         }
@@ -69,15 +70,12 @@
         function fetchProjects() {
             fetch('/projects')
                 .then(response => {
-                    console.log("response rmp_projects.html:", response);
                     if (!response.ok) {
                         throw new Error('Failed to fetch projects');
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log("entered 1st .then");
-                    console.log(data);
                     displayProjects(data); // Call function to display projects
                 })
                 .catch(error => {
@@ -88,65 +86,65 @@
 
         // Function to display project data
         function displayProjects(projects) {
-                const tableBody = $('#projectTable');
-                tableBody.empty(); // Clear previous data
+            const tableBody = $('#projectTable');
+            tableBody.empty(); // Clear previous data
 
-                projects.forEach(project => {
-                    // Create a dropdown menu for project status
-                    const selectElement = $('<select>').attr('id', `status_${project.project_id}`);
+            projects.forEach(project => {
+                // Create a dropdown menu for project status
+                const selectElement = $('<select>').attr('id', `status_${project.project_id}`);
 
-                    // Add options to the select element
-                    ['on hold', 'completed', 'active'].forEach(option => {
-                        const optionElement = $('<option>').attr('value', option).text(option);
-                        if (option === project.status) {
-                            optionElement.attr('selected', true);
-                        }
-                        selectElement.append(optionElement);
-                    });
-
-                    // Attach the onchange event handler
-                    selectElement.on('change', function() {
-                        updateStatus(project.project_id);
-                    });
-
-                    // Construct the row with project details and the status dropdown
-                    const row = $('<tr>');
-                    row.append(`<td>${project.project_id}</td>`);
-                    row.append(`<td>${project.project_name}</td>`);
-                    row.append(`<td>${project.project_description}</td>`);
-                    row.append(`<td>${project.start_date}</td>`);
-                    row.append(`<td>${project.end_date}</td>`);
-                    row.append($('<td>').append(selectElement));
-
-                    // Append the row to the table body
-                    tableBody.append(row);
-                });
-            }
-
-            // Function to handle status update
-            async function updateStatus(projectId) {
-                const newStatus = $(`#status_${projectId}`).val();
-
-                try {
-                    const response = await fetch(`/projects/${projectId}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ status: newStatus })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Failed to update project status');
+                // Add options to the select element
+                ['on hold', 'completed', 'active'].forEach(option => {
+                    const optionElement = $('<option>').attr('value', option).text(option);
+                    if (option === project.status) {
+                        optionElement.attr('selected', true);
                     }
+                    selectElement.append(optionElement);
+                });
 
-                    // Assuming you want to reload the projects data after status update
-                    fetchProjects();
-                } catch (error) {
-                    console.error('Error updating project status:', error.message);
-                    // Handle error
+                // Attach the onchange event handler
+                selectElement.on('change', function () {
+                    updateStatus(project.project_id);
+                });
+
+                // Construct the row with project details and the status dropdown
+                const row = $('<tr>');
+                row.append(`<td>${project.project_id}</td>`);
+                row.append(`<td>${project.project_name}</td>`);
+                row.append(`<td>${project.project_description}</td>`);
+                row.append(`<td>${project.start_date}</td>`);
+                row.append(`<td>${project.end_date}</td>`);
+                row.append($('<td>').append(selectElement));
+
+                // Append the row to the table body
+                tableBody.append(row);
+            });
+        }
+
+        // Function to handle status update
+        async function updateStatus(projectId) {
+            const newStatus = $(`#status_${projectId}`).val();
+
+            try {
+                const response = await fetch(`/projects/${projectId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update project status');
                 }
+
+                // Assuming you want to reload the projects data after status update
+                fetchProjects();
+            } catch (error) {
+                console.error('Error updating project status:', error.message);
+                // Handle error
             }
+        }
 
         // Call fetchProjects() when the document is ready
         fetchProjects();

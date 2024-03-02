@@ -1,30 +1,89 @@
+<style>
+    .task-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        max-width: 400px;
+        width: 100%;
+        margin: 10px 0 0 10px;
+    }
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        /* Adjust label color */
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        resize: vertical;
+        height: 100px;
+    }
+
+    button[type="submit"] {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #555;
+    }
+</style>
+
 <body>
-    <h1>Create Task</h1>
-    <form id="createTaskForm">
-        <label for="task_name">Task Name:</label>
-        <input type="text" id="task_name" name="task_name" required>
-        <br>
-        <label for="task_description">Description:</label>
-        <textarea id="task_description" name="task_description" rows="4" required></textarea>
-        <br>
-        <label for="project_id">Project ID:</label>
-        <input type="text" id="project_id" name="project_id" required>
-        <br>
-        <label for="assigned_to">Assigned To:</label>
-        <input type="text" id="assigned_to" name="assigned_to" required>
-        <br>
-        <label for="due_date">Due Date:</label>
-        <input type="date" id="due_date" name="due_date" required>
-        <br>
-        <label for="status">Status:</label>
-        <select id="status" name="status" required>
-            <option value="open">Open</option>
-            <option value="in progress">In Progress</option>
-            <option value="completed">Completed</option>
-        </select>
-        <br>
-        <button type="submit">Create Task</button>
-    </form>
+    <div class="task-card">
+        <h2>Create Task</h2>
+        <form id="createTaskForm">
+            <label for="task_name">Task Name:</label>
+            <input type="text" id="task_name" name="task_name" required>
+            <br>
+            <label for="task_description">Description:</label>
+            <textarea id="task_description" name="task_description" rows="4" required></textarea>
+            <br>
+            <label for="project_id">Project ID:</label>
+            <input type="text" id="project_id" name="project_id" required>
+            <br>
+            <label for="assigned_to">Assigned To:</label>
+            <input type="text" id="assigned_to" name="assigned_to" required>
+            <br>
+            <label for="due_date">Due Date:</label>
+            <input type="date" id="due_date" name="due_date" required>
+            <br>
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="open">Open</option>
+                <option value="in progress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+            <br>
+            <button type="submit">Create Task</button>
+        </form>
+    </div>
+
 
     <script>
         document.getElementById('createTaskForm').addEventListener('submit', async (event) => {

@@ -1,98 +1,118 @@
- main{
+main {
     background-color: rgba(255, 166, 0, 0.626);
 }
-.wrapper{
 
-    display: grid;
-    gap:5px 10px;
-    grid-template-columns: 0.7fr 4fr;
-    grid-template-areas: 
-    "sidebar header"
-    "sidebar space_"
-    ;
-    position: relative;
-    
+body {
+    margin: 0;
+    margin-top: 2px;
+    margin-right: 5px;
 }
 
-.grid-col-wrapper{
+
+.wrapper {
+    display: grid;
+    gap: 5px 5px;
+    grid-template-columns: 0.7fr 4fr;
+    grid-template-areas:
+        "sidebar header"
+        "sidebar space_";
+    position: relative;
+}
+
+@media(min-width:700px) {
+    .main {
+        grid-template-columns: 1fr 4fr;
+        grid-template-areas:
+            "sidebar      header"
+            "sidebar   space_";
+    }
+}
+
+.grid-col-wrapper {
     display: contents;
     height: auto;
-} 
-.grid-col-wrapper > *{
+}
+
+.grid-col-wrapper>* {
     background: orange;
 }
 
-.logo{
-    box-shadow: 8px 0px 6px grey;
+.logo {
+    box-shadow: 0px 2px 2px grey;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 3.5rem;
     margin-bottom: 10px;
 }
-.header{
+
+.header {
     grid-area: header;
     background: yellow;
-    box-shadow: 0px 4px 6px grey;
+    box-shadow: 0px 2px 2px grey;
     display: block;
     height: 3.5rem;
 }
-.header .project_name{
+
+.header .project_name {
     float: left;
-    margin: 16px 0 0 10px ;
+    margin: 16px 0 0 10px;
 }
-.header .login{
+
+.header .login {
     float: right;
-    margin: 16px 10px 0 0px ;
+    margin: 16px 20px 0 0px;
 }
-.sidebar{
+
+.sidebar {
     grid-area: sidebar;
     background: whitesmoke;
-    box-shadow: 8px 0px 6px grey;
+    box-shadow: 2px 0px 2px grey;
     text-align: center;
     padding-top: 0px;
 }
 
-.btn{
+.btn_project {
     display: flex;
-    /* align-items: center; */
     justify-content: center;
 }
-.space{
+
+.space {
     grid-area: space_;
-    background-color:antiquewhite;
+    background-color: antiquewhite;
     height: 100vh;
     position: relative;
 }
-#mainspace{
+
+#mainspace {
     margin: 10px 0 0 10px;
 }
-@media(min-width:700px){
-    .main {
-        grid-template-columns: 1fr 4fr;
-        grid-template-areas: 
-        "sidebar      header"
-        "sidebar   space_";
-    }}
-a{
+
+
+
+a {
     text-decoration: none;
     color: black;
 }
-ul a:hover{
+
+ul a:hover {
     color: red;
 }
-ul li:hover{
+
+ul li:hover {
     background-color: orange;
 }
-ul{
+
+ul {
     all: unset;
     list-style-type: none;
 }
-ul li{
-    padding: 3px ;
+
+ul li {
+    padding: 3px;
 }
 
-.btn_project{
+.btn_project a{
     display: block;
     background: #FF8669;
     border-radius: 0.5rem;
@@ -100,16 +120,18 @@ ul li{
     margin: 6px 0;
 }
 
-.btn_project a:hover{
+.btn_project a:hover {
     color: white;
 }
-button:hover{
+
+button:hover {
     background-color: rgba(203, 77, 31, 0.822);
 }
 
-.test{
-    border: 2px  solid red;
+.test {
+    border: 2px solid red;
 }
-a{
-    cursor:pointer;
+
+a {
+    cursor: pointer;
 }

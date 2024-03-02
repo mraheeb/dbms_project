@@ -1,35 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    /* Add your CSS styles here */
+    #body {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Data</title>
-    <style>
-        /* Add your CSS styles here */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        th,
-        td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
 
-        th {
-            background-color: #f2f2f2;
-        }
+    th {
+        background-color: #f2f2f2;
+    }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
 
-<body>
+<div id="body">
     <h2>User Data</h2>
     <table>
         <thead>
@@ -44,9 +41,9 @@
             <!-- User data will be dynamically added here -->
         </tbody>
     </table>
-</body>
+</div>
 <script>
-    document.getElementById('btn_main').innerHTML = '+New User';
+    document.getElementById('btn_main').innerHTML = '<i class="fa fa-plus"></i> New User';
 
     $(document).ready(function () {
 
@@ -58,11 +55,9 @@
                 dataType: 'html',
                 success: function (data) {
                     $('#content').html(data);
-                    // console.log(data); // Replace the content of the '#content' div with the fetched data
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', status, error);
-                    console.log("xhr", xhr);
                 }
             });
         }
@@ -74,14 +69,12 @@
         function fetchUsers() {
             fetch('/users')
                 .then(response => {
-                    console.log("Response from server:", response);
                     if (!response.ok) {
                         throw new Error('Failed to fetch users');
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log("User data received:", data);
                     displayUsers(data); // Call function to display users
                 })
                 .catch(error => {
@@ -113,5 +106,3 @@
         fetchUsers();
     });
 </script>
-
-</html>

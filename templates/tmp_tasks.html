@@ -1,5 +1,9 @@
 <style>
     /* Add your CSS styles here */
+    #body{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
     table {
         width: 100%;
         border-collapse: collapse;
@@ -22,137 +26,132 @@
 </style>
 </head>
 
-<body>
-<h2>Task Data</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Project ID</th>
-            <th>Task ID</th>
-            <th>Task Name</th>
-            <th>Description</th>
-            <th>Assigned To</th>
-            <th>Due Date</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody id="taskContainer">
-        <!-- Task data will be dynamically added here -->
-    </tbody>
-</table>
-</body>
+<div id="body">
+    <h2>Task Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Project ID</th>
+                <th>Task ID</th>
+                <th>Task Name</th>
+                <th>Description</th>
+                <th>Assigned To</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="taskContainer">
+            <!-- Task data will be dynamically added here -->
+        </tbody>
+    </table>
+</div>
 
 <script>
-document.getElementById('btn_main').innerHTML = '+ New Task';
-$(document).ready(function () {
-    // Function to reload content
-    function reloadContent(getUrl) {
-        var setUrl = getUrl;
-        $.ajax({
-            url: setUrl, // URL of the server script to fetch updated content
-            type: 'GET', // Or 'POST' if needed
-            dataType: 'html',
-            success: function (data) {
-                $('#content').html(data);
-                // console.log(data); // Replace the content of the '#content' div with the fetched data
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', status, error);
-                console.log("xhr", xhr);
-            }
-        });
-    }
-    // Call reloadContent() when the button is clicked
-    $('#btn_main').click(function () {
-        reloadContent("/tmp_createtask.html");
-    });
-
-    // Function to fetch all task data
-    function fetchTasks() {
-        fetch('/tasks')
-            .then(response => {
-                console.log("response tmp_tasks.html:", response);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch tasks');
+    document.getElementById('btn_main').innerHTML = '<i class="fa fa-plus"></i> New Task';
+    $(document).ready(function () {
+        // Function to reload content
+        function reloadContent(getUrl) {
+            var setUrl = getUrl;
+            $.ajax({
+                url: setUrl, // URL of the server script to fetch updated content
+                type: 'GET', // Or 'POST' if needed
+                dataType: 'html',
+                success: function (data) {
+                    $('#content').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', status, error);
                 }
-                return response.json();
-            })
-            .then(data => {
-                console.log("entered 1st .then");
-                console.log(data);
-                displayTasks(data); // Call function to display tasks
-            })
-            .catch(error => {
-                console.error('Error fetching tasks tmp_tasks.html:', error.message);
-                // Handle error
             });
-    }
-
-    // Function to display task data
-    function displayTasks(tasks) {
-    const taskContainer = $('#taskContainer');
-    taskContainer.empty(); // Clear previous data
-
-    tasks.forEach(task => {
-        // Create a dropdown menu for task status
-        const selectElement = $('<select>').attr('id', `status_${task.task_id}`);
-
-        // Add options to the select element
-        ['open', 'in progress', 'completed'].forEach(option => {
-            const optionElement = $('<option>').attr('value', option).text(option);
-            if (option === task.status) {
-                optionElement.attr('selected', true);
-            }
-            selectElement.append(optionElement);
+        }
+        // Call reloadContent() when the button is clicked
+        $('#btn_main').click(function () {
+            reloadContent("/tmp_createtask.html");
         });
 
-        // Attach the onchange event handler
-        selectElement.on('change', function () {
-            updateTaskStatus(task.task_id);
-        });
-
-        // Construct the row with task details and the status dropdown
-        const row = $('<tr>');
-        row.append(`<td>${task.project_id}</td>`);
-        row.append(`<td>${task.task_id}</td>`);
-        row.append(`<td>${task.task_name}</td>`);
-        row.append(`<td>${task.task_description}</td>`);
-        row.append(`<td>${task.assigned_to}</td>`);
-        row.append(`<td>${task.due_date}</td>`);
-        row.append($('<td>').append(selectElement));
-
-        // Append the row to the table body
-        taskContainer.append(row);
-    });
-}
-
-// Function to handle task status update
-async function updateTaskStatus(taskId) {
-    const newStatus = $(`#status_${taskId}`).val();
-
-    try {
-        const response = await fetch(`/tasks/${taskId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ status: newStatus })
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to update task status');
+        // Function to fetch all task data
+        function fetchTasks() {
+            fetch('/tasks')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch tasks');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayTasks(data); // Call function to display tasks
+                })
+                .catch(error => {
+                    console.error('Error fetching tasks tmp_tasks.html:', error.message);
+                    // Handle error
+                });
         }
 
-        // Assuming you want to reload the tasks data after status update
+        // Function to display task data
+        function displayTasks(tasks) {
+            const taskContainer = $('#taskContainer');
+            taskContainer.empty(); // Clear previous data
+
+            tasks.forEach(task => {
+                // Create a dropdown menu for task status
+                const selectElement = $('<select>').attr('id', `status_${task.task_id}`);
+
+                // Add options to the select element
+                ['open', 'in progress', 'completed'].forEach(option => {
+                    const optionElement = $('<option>').attr('value', option).text(option);
+                    if (option === task.status) {
+                        optionElement.attr('selected', true);
+                    }
+                    selectElement.append(optionElement);
+                });
+
+                // Attach the onchange event handler
+                selectElement.on('change', function () {
+                    updateTaskStatus(task.task_id);
+                });
+
+                // Construct the row with task details and the status dropdown
+                const row = $('<tr>');
+                row.append(`<td>${task.project_id}</td>`);
+                row.append(`<td>${task.task_id}</td>`);
+                row.append(`<td>${task.task_name}</td>`);
+                row.append(`<td>${task.task_description}</td>`);
+                row.append(`<td>${task.assigned_to}</td>`);
+                row.append(`<td>${task.due_date}</td>`);
+                row.append($('<td>').append(selectElement));
+
+                // Append the row to the table body
+                taskContainer.append(row);
+            });
+        }
+
+        // Function to handle task status update
+        async function updateTaskStatus(taskId) {
+            const newStatus = $(`#status_${taskId}`).val();
+
+            try {
+                const response = await fetch(`/tasks/${taskId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update task status');
+                }
+
+                // Assuming you want to reload the tasks data after status update
+                fetchTasks();
+            } catch (error) {
+                console.error('Error updating task status:', error.message);
+                // Handle error
+            }
+        }
+
+
+        // Call fetchTasks() when the document is ready
         fetchTasks();
-    } catch (error) {
-        console.error('Error updating task status:', error.message);
-        // Handle error
-    }
-}
-
-
-    // Call fetchTasks() when the document is ready
-    fetchTasks();
-});
+    });
 </script>

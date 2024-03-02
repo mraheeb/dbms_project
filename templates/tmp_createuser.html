@@ -1,6 +1,58 @@
+<style>
+    .user-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        max-width: 400px;
+        width: 100%;
+        margin: 10px 0 0 10px;
+    }
 
-    <h1>User Management</h1>
-    
+    h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        /* Adjust label color */
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    select {
+        appearance: none;
+        /* Remove default appearance */
+    }
+
+    button[type="submit"] {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #555;
+    }
+</style>
+<div class="user-card">
     <h2>Create User</h2>
     <form id="createUserForm">
         <label for="username">Username:</label>
@@ -18,33 +70,34 @@
         <br>
         <button type="submit">Create User</button>
     </form>
+</div>
 
-    <script>
-        document.getElementById('createUserForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const userData = Object.fromEntries(formData.entries());
+<script>
+    document.getElementById('createUserForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-            try {
-                const response = await fetch('/users', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(userData)
-                });
+        const formData = new FormData(event.target);
+        const userData = Object.fromEntries(formData.entries());
 
-                if (response.ok) {
-                    alert('User created successfully');
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to create user');
-                }
-            } catch (error) {
-                console.error('Error creating user:', error.message);
-                alert('Error: ' + error.message);
+        try {
+            const response = await fetch('/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                alert('User created successfully');
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to create user');
             }
-        });
-        
-    </script>
+        } catch (error) {
+            console.error('Error creating user:', error.message);
+            alert('Error: ' + error.message);
+        }
+    });
+
+</script>
