@@ -2,9 +2,9 @@ const mysql = require('mysql2');
 
 const dbConfig = {
     host: 'localhost',
-    user: 'dbms_root', // Change to your database username
-    password: 'dbms_root', // Change to your database password
-    database: 'dbms_root' // Change to your database name
+    user: 'testr', // Change to your database username
+    password: 'testr', // Change to your database password
+    database: 'testr' // Change to your database name
 };
 
 const pool = mysql.createPool(dbConfig);

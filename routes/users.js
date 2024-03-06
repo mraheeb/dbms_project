@@ -7,8 +7,7 @@ router.route('/')
     .get(async (req, res) => {
         try {
             const connection = await getConnection();
-            const [rows] = await connection.execute('SELECT * FROM users');
-            // await connection.end();
+            const [rows] = await connection.execute('SELECT user_id, username, email, role FROM Users');
             res.status(200).json(rows);
         } catch (error) {
             console.error('Error retrieving users:', error);
@@ -18,10 +17,10 @@ router.route('/')
     // POST request to create a new user
     .post(async (req, res) => {
         try {
-            const { username, email, role } = req.body;
+            const { username, email, password, role } = req.body;
+            console.log('request body users.js',req.body);
             const connection = await getConnection();
-            await connection.execute('INSERT INTO users (username, email, role) VALUES (?, ?, ?)', [username, email, role]);
-            // await connection.end();
+            await connection.execute('INSERT INTO Users (username, email, password, role) VALUES (?, ?, ?, ?)', [username, email, password, role]);
             res.status(201).json({ message: 'User created successfully' });
         } catch (error) {
             console.error('Error creating user:', error);
@@ -36,8 +35,7 @@ router.route('/:userId')
             const { userId } = req.params;
             const { role } = req.body;
             const connection = await getConnection();
-            await connection.execute('UPDATE users SET role = ? WHERE user_id = ?', [role, userId]);
-            // await connection.end();
+            await connection.execute('UPDATE Users SET role = ? WHERE user_id = ?', [role, userId]);
             res.status(200).json({ message: 'User role updated successfully' });
         } catch (error) {
             console.error('Error updating user role:', error);
@@ -46,3 +44,4 @@ router.route('/:userId')
     });
 
 module.exports = router;
+

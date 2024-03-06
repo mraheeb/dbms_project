@@ -1,9 +1,3 @@
-CREATE TABLE Users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'manager', 'team member') DEFAULT 'team member'
-);
 CREATE TABLE Projects (
     project_id INT AUTO_INCREMENT PRIMARY KEY,
     project_name VARCHAR(255) NOT NULL,
@@ -12,6 +6,17 @@ CREATE TABLE Projects (
     end_date DATE,
     status ENUM('active', 'completed', 'on hold') DEFAULT 'active'
 );
+
+CREATE TABLE Users(
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'manager', 'team member') DEFAULT 'team member',
+    registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    confirmed BOOLEAN DEFAULT FALSE
+);
+
 CREATE TABLE Tasks (
     task_id INT AUTO_INCREMENT PRIMARY KEY,
     task_name VARCHAR(255) NOT NULL,
@@ -23,13 +28,7 @@ CREATE TABLE Tasks (
     FOREIGN KEY (project_id) REFERENCES Projects(project_id),
     FOREIGN KEY (assigned_to) REFERENCES Users(user_id)
 );
-CREATE TABLE Login (
-    login_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    login_time DATETIME,
-    logout_time DATETIME,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
+
 CREATE TABLE TaskComments (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
     task_id INT,

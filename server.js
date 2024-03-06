@@ -6,6 +6,8 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+
+app.use(express.static('public', { index: 'login.html' }));
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, './public')));
 app.use(express.static(path.join(__dirname, './templates')));
@@ -15,6 +17,8 @@ app.use(express.static(path.join(__dirname, './templates')));
 const projectsRouter = require('./routes/projects');
 const tasksRouter = require('./routes/tasks');
 const usersRouter = require('./routes/users');
+const loginRouter = require('./routes/login');
+
 // You can import other route files here
 
 
@@ -22,6 +26,8 @@ const usersRouter = require('./routes/users');
 app.use('/projects', projectsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+
 
 // You can use other route files here
 
