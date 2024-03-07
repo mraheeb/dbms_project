@@ -60,8 +60,9 @@ document.getElementById('login-form').addEventListener('submit', async function(
         });
 
         if (response.ok) {
-            console.log('in signup.js check redir');
-            window.location.href = './index.html'; // Redirect to dashboard upon successful login
+            const responseData = await response.json();
+            console.log('Login successful');
+            window.location.href = responseData.redirectUrl; // Redirect to the appropriate page
         } else {
             const errorData = await response.json();
             throw new Error(errorData.error || 'Failed to login');

@@ -63,7 +63,7 @@
         }
         // Call reloadContent() when the button is clicked
         $('#btn_main').click(function () {
-            reloadContent("/tmp_createuser.html");
+                reloadContent("/tmp_createuser.html");
         });
         // Function to fetch all user data
         function fetchUsers() {
@@ -89,19 +89,52 @@
             tableBody.empty(); // Clear previous data
 
             users.forEach(user => {
-                // Construct the row with user details
+                // Construct the row with user details and role selection
                 const row = `<tr>
                     <td>${user.user_id}</td>
                     <td>${user.username}</td>
                     <td>${user.email}</td>
-                    <td>${user.role}</td>
+                    <td>
+                        <select id="role_${user.user_id}">
+                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                            <option value="manager" ${user.role === 'manager' ? 'selected' : ''}>Manager</option>
+                            <option value="team member" ${user.role === 'team member' ? 'selected' : ''}>Team Member</option>
+                        </select>
+                        <button class="changeStatusBtn" data-userid="${user.user_id}">Change Role</button>
+                    </td>
                 </tr>`;
 
                 // Append the row to the table body
                 tableBody.append(row);
             });
         }
+        $(document).on('click', '.changeStatusBtn', function () {
+            const userId = $(this).data('userid');
+            const newRole = $(`#role_${userId}`).val();
 
+            // Call API to update user role
+            fetch(`/users/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ role: newRole })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update user role');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('User role updated successfully');
+                fetchUsers(); // Refresh user data
+            })
+            .catch(error => {
+                console.error('Error updating user role:', error.message);
+                // Handle error
+            });
+        });
         // Call fetchUsers() when the document is ready
         fetchUsers();
     });

@@ -66,7 +66,13 @@
         }
         // Call reloadContent() when the button is clicked
         $('#btn_main').click(function () {
-            reloadContent("/tmp_createtask.html");
+            const loginRole = document.getElementsByClassName('login')[0].innerText;
+            if (loginRole.length === 12) {
+                document.getElementById('btn_main').innerText = 'not a manager';
+
+            } else {
+                reloadContent("/tmp_createtask.html");
+            }
         });
 
         // Function to fetch all task data

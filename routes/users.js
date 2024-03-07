@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 const { getConnection } = require('../db/connection');
 
 router.route('/')
@@ -18,9 +19,9 @@ router.route('/')
     .post(async (req, res) => {
         try {
             const { username, email, password, role } = req.body;
-            console.log('request body users.js',req.body);
+            const hashedPassword = await bcrypt.hash(password, 10);
             const connection = await getConnection();
-            await connection.execute('INSERT INTO Users (username, email, password, role) VALUES (?, ?, ?, ?)', [username, email, password, role]);
+            await connection.execute('INSERT INTO Users (username, email, password, role) VALUES (?, ?, ?, ?)', [username, email, hashedPassword, role]);
             res.status(201).json({ message: 'User created successfully' });
         } catch (error) {
             console.error('Error creating user:', error);
