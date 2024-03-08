@@ -30,4 +30,5 @@ $(document).ready(function () {
     $('#btn_users').click(function () {
         reloadContent("/tmp_users.html");
     });
+    reloadContent("/tmp_dashboard.html");
 });
