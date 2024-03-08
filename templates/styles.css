@@ -1,14 +1,10 @@
-main {
-    background-color: rgba(255, 166, 0, 0.626);
-}
-
 body {
     margin: 0;
     margin-top: 0.5px;
     margin-right: 5px;
     font-weight: 600;
-    font-family:monospace;
-    font-size:larger;
+    font-family: monospace;
+    font-size: larger;
 }
 
 
@@ -26,8 +22,8 @@ body {
     .main {
         grid-template-columns: 1fr 4fr;
         grid-template-areas:
-            "sidebar      header"
-            "sidebar   space_";
+            "sidebar    header"
+            "sidebar    space_";
     }
 }
 
@@ -57,8 +53,9 @@ body {
     flex-direction: row-reverse;
     align-items: center;
 }
-.header .login {
-    margin-right:10px;
+
+.header >*  {
+    margin: 0 10px 0 10px;
 }
 
 .sidebar {
@@ -85,6 +82,7 @@ body {
     font-weight: 400;
     margin: 10px 0 0 10px;
 }
+
 #mainspace {
     margin: 10px 0 0 10px;
 }
@@ -114,7 +112,7 @@ ul li {
     padding: 3px;
 }
 
-.btn_project a{
+.btn_project a {
     display: block;
     background: #FF8669;
     border-radius: 0.2rem;

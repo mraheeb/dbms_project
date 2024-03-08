@@ -34,7 +34,7 @@ body {
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 8px;
+    padding: 8px 0 8px 0;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
@@ -63,4 +63,7 @@ body {
 .toggle-link a {
     color: #007bff; /* Link color */
     text-decoration: none;
+}
+#signup-role{
+    display: none;
 }

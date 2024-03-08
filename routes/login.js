@@ -24,16 +24,7 @@ router.route('/')
                 return res.status(401).json({ error: 'Invalid email or password' });
             }
 
-            // Authentication successful, create session or token
-            // req.session.userId = user.user_id; // Example of session setup
-
-            if (user.role === 'admin' || user.role === 'manager') {
-                // Redirect to admin.html
-                return res.status(200).json({ message: 'Admin login successful', redirectUrl: '/admin.html' });
-            } else {
-                // Redirect to index.html
-                return res.status(200).json({ message: 'Login successful', redirectUrl: '/index.html' });
-            }
+            return res.status(200).json(user);
         } catch (error) {
             console.error('Error logging in:', error);
             res.status(500).json({ error: 'Failed to login' });
