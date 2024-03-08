@@ -4,14 +4,17 @@ main {
 
 body {
     margin: 0;
-    margin-top: 2px;
+    margin-top: 0.5px;
     margin-right: 5px;
+    font-weight: 600;
+    font-family:monospace;
+    font-size:larger;
 }
 
 
 .wrapper {
     display: grid;
-    gap: 5px 5px;
+    /* gap: 5px 5px; */
     grid-template-columns: 0.7fr 4fr;
     grid-template-areas:
         "sidebar header"
@@ -38,36 +41,29 @@ body {
 }
 
 .logo {
-    box-shadow: 0px 2px 2px grey;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 3.5rem;
-    margin-bottom: 10px;
+    height: 4rem;
+    background: #274c7c;
 }
 
 .header {
     grid-area: header;
-    background: yellow;
-    box-shadow: 0px 2px 2px grey;
-    display: block;
-    height: 3.5rem;
+    background: #274c7c;
+    display: flex;
+    height: 4rem;
+    position: relative;
+    flex-direction: row-reverse;
+    align-items: center;
 }
-
-.header .project_name {
-    float: left;
-    margin: 16px 0 0 10px;
-}
-
 .header .login {
-    float: right;
-    margin: 16px 20px 0 0px;
+    margin-right:10px;
 }
 
 .sidebar {
     grid-area: sidebar;
-    background: whitesmoke;
-    box-shadow: 2px 0px 2px grey;
+    background: #888C89;
     text-align: center;
     padding-top: 0px;
 }
@@ -84,6 +80,10 @@ body {
     position: relative;
 }
 
+#content {
+    font-weight: 400;
+    margin: 10px 0 0 10px;
+}
 #mainspace {
     margin: 10px 0 0 10px;
 }
@@ -93,6 +93,7 @@ body {
 a {
     text-decoration: none;
     color: black;
+    cursor: pointer;
 }
 
 ul a:hover {
@@ -115,7 +116,7 @@ ul li {
 .btn_project a{
     display: block;
     background: #FF8669;
-    border-radius: 0.5rem;
+    border-radius: 0.2rem;
     padding: 6px 10px;
     margin: 6px 0;
 }
@@ -131,8 +132,3 @@ button:hover {
 .test {
     border: 2px solid red;
 }
-
-a {
-    cursor: pointer;
-}
-
