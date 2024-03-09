@@ -121,7 +121,12 @@
                 row.append(`<td>${project.project_description}</td>`);
                 row.append(`<td>${project.start_date}</td>`);
                 row.append(`<td>${project.end_date}</td>`);
-                row.append($('<td>').append(selectElement));
+                if(tmpRole ==='team member'){
+                    row.append(`<td>${project.status}</td>`);
+                }
+                else{
+                    row.append($('<td>').append(selectElement));
+                }
 
                 // Append the row to the table body
                 tableBody.append(row);
@@ -152,7 +157,7 @@
                 // Handle error
             }
         }
-
+        let tmpRole = sessionStorage.getItem('token');
         // Call fetchProjects() when the document is ready
         fetchProjects();
     });

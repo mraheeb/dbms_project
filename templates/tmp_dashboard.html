@@ -1,14 +1,160 @@
 <style>
+    /* Add your CSS styles here */
     #body {
         margin-left: 10px;
-        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .task-status,
+    .user-assignment {
+        width: 120px;
     }
 </style>
+</head>
+
 <div id="body">
-    <h2>Dashboard Page</h2>
-    <p>This is the Dashboard page content.</p>
+    <h2>My Dashboard</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Description</th>
+                <th>Project ID</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="taskContainer">
+            <!-- Task data will be dynamically added here -->
+        </tbody>
+    </table>
 </div>
 
 <script>
-    document.getElementById('btn_main').innerHTML = 'Welcome';
+
+    // Get the user token from local storage
+
+
+    $(document).ready(function () {
+        document.getElementById('btn_main').innerHTML = 'Welcome';
+        // Function to reload content
+        function reloadContent(getUrl) {
+            var setUrl = getUrl;
+            $.ajax({
+                url: setUrl, // URL of the server script to fetch updated content
+                type: 'GET', // Or 'POST' if needed
+                dataType: 'html',
+                success: function (data) {
+                    $('#content').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', status, error);
+                }
+            });
+        }
+        $('#btn_main').click(function () {
+                reloadContent("/tmp_dashboard.html");
+        });
+
+        // Function to fetch all task data for a specific user
+        function fetchTasksForUser(userId) {
+            // Construct the URL with parameters
+            const url = `/tasks/${userId}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch tasks');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayTasks(data); // Call function to display tasks
+                })
+                .catch(error => {
+                    console.error('Error fetching tasks:', error.message);
+                    // Handle error
+                });
+        }
+
+        // Function to display task data
+        function displayTasks(tasks) {
+            const taskContainer = $('#taskContainer');
+            taskContainer.empty(); // Clear previous data
+
+            tasks.forEach(task => {
+                // Create a dropdown menu for task status
+                const selectElement = $('<select>').attr('id', `status_${task.task_id}`);
+
+                // Add options to the select element
+                ['open', 'in progress', 'completed'].forEach(option => {
+                    const optionElement = $('<option>').attr('value', option).text(option);
+                    if (option === task.status) {
+                        optionElement.attr('selected', true);
+                    }
+                    selectElement.append(optionElement);
+                });
+
+                // Attach the onchange event handler
+                selectElement.on('change', function () {
+                    updateTaskStatus(task.task_id);
+                });
+
+                // Construct the row with task details and the status dropdown
+                const row = $('<tr>');
+                row.append(`<td>${task.task_name}</td>`);
+                row.append(`<td>${task.task_description}</td>`);
+                row.append(`<td>${task.project_id}</td>`);
+                row.append(`<td>${task.due_date}</td>`);
+                row.append($('<td>').append(selectElement));
+
+                // Append the row to the table body
+                taskContainer.append(row);
+            });
+        }
+
+        // Function to handle task status update
+        async function updateTaskStatus(taskId) {
+            const newStatus = $(`#status_${taskId}`).val();
+
+            try {
+                const response = await fetch(`/tasks/${taskId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update task status');
+                }
+
+                // Assuming you want to reload the tasks data after status update
+                fetchTasksForUser(user); // Replace user with the actual user token
+            } catch (error) {
+                console.error('Error updating task status:', error.message);
+                // Handle error
+            }
+        }
+        const user = sessionStorage.getItem('user');
+        // Call fetchTasksForUser() when the document is ready
+        fetchTasksForUser(user);
+    });
 </script>

@@ -64,8 +64,9 @@ document.getElementById('login-form').addEventListener('submit', async function 
             .then(response => response.json())
             .then(data => {
                 // Store the JWT token in local storage or cookie
-                localStorage.setItem('token', data.role);
-
+                sessionStorage.setItem('token', data.role);
+                sessionStorage.setItem('user',data.user_id);
+                sessionStorage.setItem('name',data.username);
                 // Redirect user based on role
                 if (data.role === 'admin'|| data.role==='manager') {
                     window.location.href = '/admin.html';

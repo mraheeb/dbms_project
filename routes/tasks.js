@@ -45,4 +45,19 @@ router.route('/:taskId')
         }
     });
 
+    router.route('/:userId')
+    // GET request to retrieve all tasks
+    .get(async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const connection = await getConnection();
+            const [rows] = await connection.execute('SELECT * FROM tasks where assigned_to = ?',[userId]);
+            // await connection.end();
+            res.status(200).json(rows);
+        } catch (error) {
+            console.error('Error retrieving tasks:', error);
+            res.status(500).json({ error: 'Failed to retrieve tasks' });
+        }
+    });
+
 module.exports = router;

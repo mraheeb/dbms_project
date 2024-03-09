@@ -103,6 +103,7 @@
 
                 if (response.ok) {
                     alert('Task created successfully');
+                    event.target.reset();
                     // Optionally, redirect to another page or perform additional actions
                 } else {
                     const errorData = await response.json();

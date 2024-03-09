@@ -33,11 +33,11 @@
     <table>
         <thead>
             <tr>
-                <th>Project ID</th>
                 <th>Task ID</th>
                 <th>Task Name</th>
                 <th>Description</th>
                 <th>Assigned To</th>
+                <th>Project ID</th>
                 <th>Due Date</th>
                 <th>Status</th>
             </tr>
@@ -50,6 +50,7 @@
 
 <script>
     document.getElementById('btn_main').innerHTML = '<i class="fa fa-plus"></i> New Task';
+    
     $(document).ready(function () {
         // Function to reload content
         function reloadContent(getUrl) {
@@ -99,7 +100,7 @@
         function displayTasks(tasks) {
             const taskContainer = $('#taskContainer');
             taskContainer.empty(); // Clear previous data
-
+            let tmpRole = sessionStorage.getItem('token');
             tasks.forEach(task => {
                 // Create a dropdown menu for task status
                 const selectElement = $('<select>').attr('id', `status_${task.task_id}`);
@@ -120,13 +121,19 @@
 
                 // Construct the row with task details and the status dropdown
                 const row = $('<tr>');
-                row.append(`<td>${task.project_id}</td>`);
+                
                 row.append(`<td>${task.task_id}</td>`);
                 row.append(`<td>${task.task_name}</td>`);
                 row.append(`<td>${task.task_description}</td>`);
                 row.append(`<td>${task.assigned_to}</td>`);
+                row.append(`<td>${task.project_id}</td>`);
                 row.append(`<td>${task.due_date}</td>`);
-                row.append($('<td>').append(selectElement));
+                if(tmpRole ==='team member'){
+                    row.append(`<td>${task.status}</td>`);
+                }
+                else{
+                    row.append($('<td>').append(selectElement));
+                }
 
                 // Append the row to the table body
                 taskContainer.append(row);

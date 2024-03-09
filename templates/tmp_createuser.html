@@ -90,6 +90,7 @@
 
             if (response.ok) {
                 alert('User created successfully');
+                event.target.reset();
             } else {
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'Failed to create user');
@@ -99,5 +100,4 @@
             alert('Error: ' + error.message);
         }
     });
-
 </script>

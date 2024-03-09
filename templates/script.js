@@ -18,7 +18,7 @@ $(document).ready(function () {
     }
     function logout() {
         // Clear user session/token from local storage
-        localStorage.removeItem('token'); // Assuming token is stored in local storage
+        sessionStorage.removeItem('token'); // Assuming token is stored in local storage
     
         // Redirect to the login page
         window.location.href = '/login.html'; // Replace '/login.html' with the URL of your login page
@@ -27,7 +27,10 @@ $(document).ready(function () {
     // Example of attaching the logout function to a logout button
     document.getElementById('logoutButton').addEventListener('click', logout);
 
-    
+    function memberName(){
+        let member = sessionStorage.getItem('name');
+        document.getElementsByClassName('login').innerHTML = member;
+    }
     // Call reloadContent() when the button is clicked
     $('#btn_dashboard').click(function () {
         reloadContent("/tmp_dashboard.html");
@@ -42,4 +45,5 @@ $(document).ready(function () {
         reloadContent("/tmp_users.html");
     });
     reloadContent("/tmp_dashboard.html");
+    memberName();
 });

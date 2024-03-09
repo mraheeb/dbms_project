@@ -52,6 +52,7 @@ body {
     position: relative;
     flex-direction: row-reverse;
     align-items: center;
+    
 }
 
 .header >*  {
