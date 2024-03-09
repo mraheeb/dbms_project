@@ -1,12 +1,12 @@
 ```
-clone repo
-
-put repo in {local}/xampp/htdoc
+clone repo into {local}/xampp/htdocs
 
 launch xampp and setup database in phpmyadmin
-import {repo}/db/tables.sql into database
-change config in {repo}/db/connection.js
+    create user and databse with same name, assign full privileges
+    import {repo}/db/tables.sql from into database
+    change config in {repo}/db/connection.js
 
+cd into repo root folder
 run $npm install
 
 run $node server.js
