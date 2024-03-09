@@ -1,4 +1,6 @@
 ```
+pre requisites: nodejs,xammp
+
 clone repo into {local}/xampp/htdocs
 
 launch xampp and setup database in phpmyadmin
