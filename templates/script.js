@@ -27,10 +27,7 @@ $(document).ready(function () {
     // Example of attaching the logout function to a logout button
     document.getElementById('logoutButton').addEventListener('click', logout);
 
-    function memberName(){
-        let member = sessionStorage.getItem('name');
-        document.getElementsByClassName('login').innerHTML = member;
-    }
+ 
     // Call reloadContent() when the button is clicked
     $('#btn_dashboard').click(function () {
         reloadContent("/tmp_dashboard.html");
@@ -44,6 +41,5 @@ $(document).ready(function () {
     $('#btn_users').click(function () {
         reloadContent("/tmp_users.html");
     });
-    reloadContent("/tmp_dashboard.html");
-    memberName();
 });
+

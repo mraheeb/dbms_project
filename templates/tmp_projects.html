@@ -65,12 +65,12 @@
         }
         // Call reloadContent() when the button is clicked
         $('#btn_main').click(function () {
-            const loginRole = document.getElementsByClassName('login')[0].innerText;
-            if (loginRole.length === 12) {
-                document.getElementById('btn_main').innerText = 'not a manager';
-
-            } else {
-                reloadContent("/tmp_createproject.html");
+            const user = sessionStorage.getItem('token');
+            if(user ==='admin'||user==='manager'){
+                reloadContent('/tmp_createproject.html');
+            }
+            else{
+                alert('you dont have permissions');
             }
         });
         // Function to fetch all project data

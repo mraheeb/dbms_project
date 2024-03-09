@@ -50,9 +50,9 @@
 
     // Get the user token from local storage
 
-
+    document.getElementById('btn_main').innerHTML = 'Welcome';
     $(document).ready(function () {
-        document.getElementById('btn_main').innerHTML = 'Welcome';
+
         // Function to reload content
         function reloadContent(getUrl) {
             var setUrl = getUrl;
@@ -69,7 +69,7 @@
             });
         }
         $('#btn_main').click(function () {
-                reloadContent("/tmp_dashboard.html");
+            reloadContent("/tmp_dashboard.html");
         });
 
         // Function to fetch all task data for a specific user
